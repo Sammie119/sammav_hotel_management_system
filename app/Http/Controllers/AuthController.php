@@ -21,7 +21,7 @@ class AuthController extends Controller
 
     public function adminHome()
     {
-        return view('dashboard');
+        return view('admin.dashbaord');
     }
 
     public function userHome()
@@ -29,34 +29,58 @@ class AuthController extends Controller
         return view('home');
     }
 
-    public function registration()
-    {
-        return view('register');
-    }
-
     public function postRegistration(Request $request)
     {
         // dd($request->all());
         request()->validate([
             'name' => 'required',
-            'username' => 'required|unique:users',
+            'username' => 'required|unique:users,username,'.$request->id.',user_id',
             'role' => 'required',
-            'contact' => 'required',
+            'p_contact' => 'required',
             'position' => 'required',
-            'password' => 'required|min:6|same:confirm_password',
-            'confirm_password' => 'required|min:6|same:password'
+            'department' => 'required',
+            'password' => 'nullable|min:6|same:confirm_password',
+            'confirm_password' => 'nullable|min:6|same:password'
         ]);
 
-        User::create([
-            'name' => $request['name'],
-            'username' => $request['username'],
-            'role' => $request['role'],
-            'contact' => $request['contact'],
-            'position' => $request['position'],
-            'password' => Hash::make($request['password'])
-        ]);
+        if($request->has('id')) {
+            User::updateOrCreate(
+                [
+                    'username' => $request['username']
+                ],
+                [
+                'name' => $request['name'],
+                'username' => $request['username'],
+                'role' => $request['role'],
+                'p_contact' => $request['p_contact'],
+                'o_contact' => $request['o_contact'],
+                'department' => $request['department'],
+                'position' => $request['position'],
+                ]
+            );
 
-        return back()->with('success', 'New User Successfully Created!!');
+            return back()->with('success', 'User Updated Successfully!!');
+        }
+        else{
+            User::updateOrCreate(
+                [
+                    'username' => $request['username']
+                ],
+                [
+                'name' => $request['name'],
+                'username' => $request['username'],
+                'role' => $request['role'],
+                'p_contact' => $request['p_contact'],
+                'o_contact' => $request['o_contact'],
+                'department' => $request['department'],
+                'position' => $request['position'],
+                'password' => Hash::make($request['password'])
+                ]
+            );
+
+            return back()->with('success', 'New User Successfully Created!!');
+        }
+
     }
 
     public function postLogin(Request $request)
@@ -66,10 +90,12 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
+        // dd($request->all());
+
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
             // Authentication passed...dashboard
-            if (Auth()->user()->role == 1) {
+            if (Auth()->user()->role == 2) {
                 
                 Session::flash('success', 'Logged in Successfully!');
                 return redirect()->intended('dashboard');
@@ -80,13 +106,13 @@ class AuthController extends Controller
             }
         }
         
-        return back()->with('success', 'Oppes! You have entered invalid credentials!');
+        return back()->with('erorr', 'Oppes! You have entered invalid credentials!');
     }
 
     public function usersList()
     {
-        $users = User::where('position', '!=', 'Super Admin')->get();
-        return view('user_list', ['users' => $users]);
+        $users = User::where('position', '!=', 'System Admin')->get();
+        return view('admin.users', ['users' => $users]);
     }
 
     public function userProfile()
@@ -133,41 +159,12 @@ class AuthController extends Controller
         return $this->logout();
     }
 
-    public function userEdit($id)
-    {
-        $user = User::find($id);
-        return view('edit_user', ['user' => $user]);
-    }
-
-    public function updateUser(Request $request)
-    {
-        // dd($request->all());
-        request()->validate([
-            'name' => 'required',
-            'username' => 'required|unique:users,username,'.$request->id.',id',
-            'role' => 'required',
-            'contact' => 'required',
-            'position' => 'required',
-        ]);
-
-        $user = User::find($request->id);
-
-        $user->update([
-            'name' => $request['name'],
-            'role' => $request['role'],
-            'contact' => $request['contact'],
-            'position' => $request['position'],
-        ]);
-
-        return back()->with('success', 'User Updated Successfully Created!!');
-    }
-
     public function deleteUser($id)
     {
         $user = User::find($id);
         $user->delete();
 
-        return back()->with('success', 'User Deleted Successfully Created!!');
+        return back()->with('success', 'User Deleted Successfully!!');
     }
 
     public function logout()
