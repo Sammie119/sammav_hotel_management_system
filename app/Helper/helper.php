@@ -30,3 +30,24 @@
                 break;
         }
     }
+
+    function getRoomStatus($role)
+    { 
+        switch ($role) {
+            case 0:
+                return "Empty";
+                break;
+            
+            case 1:
+                return "Booked";
+                break;
+
+            case 2:
+                return "Occupied";
+                break;
+
+            default:
+                return "No Role for User";
+                break;
+        }
+    }

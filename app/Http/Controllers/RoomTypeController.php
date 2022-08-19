@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\RoomType;
+use App\Models\ServicePrice;
 use Illuminate\Http\Request;
 
 class RoomTypeController extends Controller
@@ -26,8 +27,15 @@ class RoomTypeController extends Controller
      */
     public function store(Request $request)
     {
+        request()->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
+
         if($request->has('id')){
             $roomType = RoomType::find($request->id);
+
+            ServicePrice::where('service', $roomType->name)->update(['service' => $request->name]);
         }
         else {
             $roomType = new RoomType;
@@ -42,6 +50,9 @@ class RoomTypeController extends Controller
             return redirect('room_types')->with('success', 'Room Type Updated Successfully!!');
         }
         else {
+
+            $this->servicePricing($roomType->name, 'Room Type', 0);
+
             $roomType->save();
 
             return redirect('room_types')->with('success', 'Room Type Created Successfully!!');
@@ -57,6 +68,9 @@ class RoomTypeController extends Controller
     public function destroy($roomType)
     {
         $roomType = RoomType::find($roomType);
+
+        ServicePrice::where('service', $roomType->name)->delete();
+
         $roomType->delete();
 
         return redirect('room_types')->with('success', 'Room Type Deleted Successfully!!');

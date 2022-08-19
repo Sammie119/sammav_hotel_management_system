@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Room;
 use App\Models\User;
 use App\Models\Dropdown;
@@ -29,6 +30,10 @@ class FormRequestController extends Controller
                 return view('forms.input-forms.room_form');
                 break;
             
+            case 'new_customer':
+                return view('forms.input-forms.customer_form');
+                break;
+
             default:
                 return "No Form Selected";
                 break;
@@ -56,6 +61,11 @@ class FormRequestController extends Controller
             case 'edit_room':
                 $room = Room::find($id);
                 return view('forms.input-forms.room_form', ['room' => $room]);
+                break;
+
+            case 'edit_customer':
+                $customer = Customer::find($id);
+                return view('forms.input-forms.customer_form', ['customer' => $customer]);
                 break;
             
             default:
@@ -95,6 +105,10 @@ class FormRequestController extends Controller
 
             case 'delete_room':
                 return view('forms.delete-forms.delete-room', ['id' => $id]);
+                break;
+
+            case 'delete_customer':
+                return view('forms.delete-forms.delete-customer', ['id' => $id]);
                 break;
         
             default:

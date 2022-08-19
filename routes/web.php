@@ -2,10 +2,12 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\FormRequestController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
+use App\Http\Controllers\ServicePriceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -51,6 +53,17 @@ Route::controller(RoomController::class)->group(function () {
     Route::get('rooms', 'index')->name('rooms');
     Route::post('store_room', 'store');
     Route::get('delete_room/{id}', 'destroy');    
+});
+
+Route::controller(CustomerController::class)->group(function () {
+    Route::get('customers', 'index')->name('customers');
+    Route::post('store_customer', 'store');
+    Route::get('delete_customer/{id}', 'destroy');    
+});
+
+Route::controller(ServicePriceController::class)->group(function () {
+    Route::get('prices', 'index')->name('prices');
+    Route::post('store_price', 'store');   
 });
 
 Route::controller(FormRequestController::class)->group(function () {

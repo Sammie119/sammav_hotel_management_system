@@ -32,9 +32,14 @@
                 </nav>
             </div>
 
-            <a class="nav-link" href="tables.html">
-                <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                Tables
+            <a class="nav-link {{ request()->is('customers') ? 'active' : '' }}" href="{{ route('customers') }}">
+                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                Customers
+            </a>
+
+            <a class="nav-link {{ request()->is('prices') ? 'active' : '' }}" href="{{ route('prices') }}">
+                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                Price Setup
             </a>
         </div>
     </div>

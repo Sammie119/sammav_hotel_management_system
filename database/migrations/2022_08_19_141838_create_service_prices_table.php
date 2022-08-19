@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('room_types', function (Blueprint $table) {
-            $table->id('r_type_id');
-            $table->string('name')->nullable();;
+        Schema::create('service_prices', function (Blueprint $table) {
+            $table->id('price_id');
+            $table->string('service')->nullable();
             $table->string('description')->nullable();
-            $table->unsignedTinyInteger('status')->default(0)->comment('0 = empty, 1 = booked, 2 = occupied');
+            $table->decimal('price', 10,2)->default(0.00);
+            $table->unsignedTinyInteger('status')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('room_types');
+        Schema::dropIfExists('service_prices');
     }
 };

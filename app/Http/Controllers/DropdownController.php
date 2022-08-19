@@ -15,6 +15,11 @@ class DropdownController extends Controller
 
     public function store(Request $request)
     {
+        request()->validate([
+            'category_id' => 'required|numeric',
+            'dropdown_name' => 'required',
+        ]);
+
         if($request->has('id')){
             $dropdown = Dropdown::find($request->id);
         }

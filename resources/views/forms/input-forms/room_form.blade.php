@@ -4,7 +4,7 @@
         <input type="hidden" name="id" value="{{ $room->room_id }}" />
     @endisset
     <div class="form-floating mb-3">
-        <input class="form-control" value="{{ (isset($room)) ? $room->room_name : null }}" name="room_name" type="text" required placeholder=" " />
+        <input class="form-control" value="{{ (isset($room)) ? $room->room_name : null }}" name="room_name" type="text" placeholder=" " />
         <label>Room Name</label>
     </div>
     <div class="row mb-3">
@@ -28,7 +28,7 @@
     </div>
     
     <div class="form-floating mb-3">
-        <input class="form-control" value="{{ (isset($room)) ? $room->description : null }}" name="description" type="text" required placeholder=" " />
+        <input class="form-control" value="{{ (isset($room)) ? $room->description : null }}" name="description" type="text" placeholder=" " />
         <label>Description</label>
     </div>
     

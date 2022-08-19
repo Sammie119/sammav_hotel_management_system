@@ -26,6 +26,11 @@ class RoomController extends Controller
      */
     public function store(Request $request)
     {
+        request()->validate([
+            'room_type_id' => 'required|numeric',
+            'room_number' => 'required',
+        ]);
+
         if($request->has('id')){
             $room = Room::find($request->id);
         }

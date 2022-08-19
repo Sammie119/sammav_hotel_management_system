@@ -56,13 +56,13 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="form-floating mb-3 mb-md-0">
-                <input class="form-control" value="{{ (isset($user)) ? $user->p_contact : null }}" type="text" name="p_contact" required placeholder=" " />
+                <input class="form-control" value="{{ (isset($user)) ? $user->p_contact : null }}" type="number" name="p_contact" required placeholder=" " />
                 <label>Personal Contact</label>
             </div>
         </div>
         <div class="col-md-6">
             <div class="form-floating">
-                <input class="form-control" value="{{ (isset($user)) ? $user->o_contact : null }}" type="text" name="o_contact" placeholder=" " />
+                <input class="form-control" value="{{ (isset($user)) ? $user->o_contact : null }}" type="number" name="o_contact" placeholder=" " />
                 <label>Office Contact</label>
             </div>
         </div>
