@@ -25,6 +25,10 @@
                 return "Super Admin";
                 break;
 
+            case 3:
+                return "System Admin";
+                break;
+
             default:
                 return "No Role for User";
                 break;

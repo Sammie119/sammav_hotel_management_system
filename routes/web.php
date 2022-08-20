@@ -37,6 +37,8 @@ Route::middleware(['adminCheck'])->group(function () {
         Route::get('dashboard', 'adminHome')->name('dashboard');
         Route::get('users', 'usersList')->name('users');
         Route::get('delete_user/{id}', 'deleteUser');
+        Route::get('user_profile', 'userProfile')->name('user_profile');
+        Route::post('store_profile', 'profileStore');
     });
     
     Route::controller(DropdownController::class)->group(function () {

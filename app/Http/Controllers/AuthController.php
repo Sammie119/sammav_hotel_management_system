@@ -117,8 +117,8 @@ class AuthController extends Controller
 
     public function userProfile()
     {
-        $user = User::find(Auth()->user()->id);
-        return view('profile', ['user' => $user]);
+        $user = User::find(Auth()->user()->user_id);
+        return view('user_profile', ['user' => $user]);
     }
 
     public function profileStore(Request $request)
@@ -126,10 +126,8 @@ class AuthController extends Controller
         // dd($request->all());
         request()->validate([
             'name' => 'required',
-            'username' => 'required|unique:users,username,'.$request->id.',id',
-            'role' => 'required',
-            'contact' => 'required',
-            'position' => 'required',
+            'username' => 'required|unique:users,username,'.$request->id.',user_id',
+            'p_contact' => 'required',
             'password' => 'nullable|min:6|same:confirm_password',
             'confirm_password' => 'nullable|min:6|same:password'
         ]);
@@ -140,9 +138,8 @@ class AuthController extends Controller
             $user->update([
                 'name' => $request['name'],
                 'username' => $request['username'],
-                'role' => $request['role'],
-                'contact' => $request['contact'],
-                'position' => $request['position'],
+                'p_contact' => $request['p_contact'],
+                'o_contact' => $request['o_contact'],
                 'password' => Hash::make($request['password'])
             ]);
         }
@@ -150,12 +147,11 @@ class AuthController extends Controller
             $user->update([
                 'name' => $request['name'],
                 'username' => $request['username'],
-                'role' => $request['role'],
-                'contact' => $request['contact'],
-                'position' => $request['position'],
+                'p_contact' => $request['p_contact'],
+                'o_contact' => $request['o_contact'],
             ]);
         }
-
+     
         return $this->logout();
     }
 
