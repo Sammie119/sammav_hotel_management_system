@@ -95,7 +95,7 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
         if (Auth::attempt($credentials)) {
             // Authentication passed...dashboard
-            if (Auth()->user()->role == 2) {
+            if (Auth()->user()->role >= 2) {
                 
                 Session::flash('success', 'Logged in Successfully!');
                 return redirect()->intended('dashboard');
@@ -111,7 +111,7 @@ class AuthController extends Controller
 
     public function usersList()
     {
-        $users = User::where('position', '!=', 'System Admin')->get();
+        $users = User::where('role', '!=', '3')->get();
         return view('admin.users', ['users' => $users]);
     }
 

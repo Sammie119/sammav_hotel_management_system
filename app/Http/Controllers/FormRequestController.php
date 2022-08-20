@@ -7,6 +7,7 @@ use App\Models\Room;
 use App\Models\User;
 use App\Models\Dropdown;
 use App\Models\RoomType;
+use App\Models\ServicePrice;
 use Illuminate\Http\Request;
 
 class FormRequestController extends Controller
@@ -66,6 +67,11 @@ class FormRequestController extends Controller
             case 'edit_customer':
                 $customer = Customer::find($id);
                 return view('forms.input-forms.customer_form', ['customer' => $customer]);
+                break;
+
+            case 'edit_price':
+                $setprice = ServicePrice::find($id);
+                return view('forms.input-forms.price_form', ['setprice' => $setprice]);
                 break;
             
             default:
