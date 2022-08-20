@@ -106,7 +106,7 @@ class AuthController extends Controller
             }
         }
         
-        return back()->with('erorr', 'Oppes! You have entered invalid credentials!');
+        return back()->with('erorr', 'Oppes! Wrong Credentials!');
     }
 
     public function usersList()

@@ -22,6 +22,16 @@
 					<form action="login" method="POST" autocomplete="off">
 						@csrf
 						<h3>Welcome!</h3>
+						@if (Session::has('erorr'))
+							<div class="alert alert-danger" role="alert">
+								{{ Session::get('erorr') }}
+							</div>
+						@endif
+						@if (Session::has('auth'))
+							<div class="alert alert-danger" role="alert">
+								{{ Session::get('auth') }}
+							</div>
+						@endif
 						<input type="text" name="username" placeholder="USERNAME" autofocus required>
 						<input type="password" name="password" placeholder="PASSWORD" required>
 						<button class="submit" type="submit">LOG IN</button>
