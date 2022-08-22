@@ -1,4 +1,4 @@
-<form action="delete_roomtype/{{ $id }}" method="get">
+<form action="delete_image/{{ $id }}" method="get">
 
     <p>Are you sure you want to delete this Record?</p>
 

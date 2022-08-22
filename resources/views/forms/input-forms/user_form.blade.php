@@ -85,7 +85,7 @@
         </div>
     @endempty
 
-    <hr width="104%" style="margin-left: -15px; backgroung: #ddd">
+    <hr width="104%" style="margin-left: -15px; background: #bbb">
 
     <div class="mt-4 mb-0">
         <div class="d-grid"><button type="submit" class="btn btn-block sammav-btn">Submit</button></div>

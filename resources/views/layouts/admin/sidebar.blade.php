@@ -38,9 +38,15 @@
             </a>
 
             <a class="nav-link {{ request()->is('prices') ? 'active' : '' }}" href="{{ route('prices') }}">
-                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                <div class="sb-nav-link-icon"><i class="fas fa-money-bill-alt"></i></div>
                 Price Setup
             </a>
+
+            <a class="nav-link {{ request()->is('setup_image') ? 'active' : '' }}" href="{{ route('setup_image') }}">
+                <div class="sb-nav-link-icon"><i class="fas fa-images"></i></div>
+                Gallery Setup
+            </a>
+            
         </div>
     </div>
     <div class="sb-sidenav-footer" style="background: radial-gradient(#653d84, #332042)">

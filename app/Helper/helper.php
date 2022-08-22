@@ -55,3 +55,8 @@
                 break;
         }
     }
+
+    function getUsername($user_id)
+    {
+        return Illuminate\Support\Facades\DB::table('users')->select('username')->where('user_id', $user_id)->first()->username;
+    }

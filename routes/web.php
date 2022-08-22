@@ -48,9 +48,15 @@ Route::middleware(['adminCheck'])->group(function () {
     });
     
     Route::controller(RoomTypeController::class)->group(function () {
+        // Room type
         Route::get('room_types', 'index')->name('room_types');
         Route::post('store_roomtype', 'store');
-        Route::get('delete_roomtype/{id}', 'destroy');    
+        Route::get('delete_roomtype/{id}', 'destroy');   
+        
+        // Gallery
+        Route::get('setup_image', 'galleryIndex')->name('setup_image');
+        Route::post('store_image', 'galleryStore');
+        Route::get('delete_image/{id}', 'galleryDestroy');   
     });
     
     Route::controller(RoomController::class)->group(function () {

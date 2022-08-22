@@ -6,6 +6,7 @@ use App\Models\Customer;
 use App\Models\Room;
 use App\Models\User;
 use App\Models\Dropdown;
+use App\Models\GallaryImages;
 use App\Models\RoomType;
 use App\Models\ServicePrice;
 use Illuminate\Http\Request;
@@ -33,6 +34,10 @@ class FormRequestController extends Controller
             
             case 'new_customer':
                 return view('forms.input-forms.customer_form');
+                break;
+
+            case 'new_image':
+                return view('forms.input-forms.gallery_form');
                 break;
 
             default:
@@ -73,6 +78,11 @@ class FormRequestController extends Controller
                 $setprice = ServicePrice::find($id);
                 return view('forms.input-forms.price_form', ['setprice' => $setprice]);
                 break;
+
+            case 'edit_image':
+                $image = GallaryImages::find($id);
+                return view('forms.input-forms.gallery_form', ['image' => $image]);
+                break;
             
             default:
                 return "No Form Selected";
@@ -82,16 +92,16 @@ class FormRequestController extends Controller
 
    public function getViewModalData($data, $id)
    {
-        // switch ($data) {
-        //     case 'new_user':
-        //         return "View User Form $id";
-        //         // return view('forms.add.add-category');
-        //         break;
+        switch ($data) {
+            case 'view_image':
+                $image = GallaryImages::find($id);
+                return view('forms.view-forms.gallery_view', ['image' => $image]);
+                break;
             
-        //     default:
-        //         return "No Form Selected";
-        //         break;
-        // }
+            default:
+                return "No Form Selected";
+                break;
+        }
    }
 
     public function getDeleteModalData($data, $id)
@@ -115,6 +125,10 @@ class FormRequestController extends Controller
 
             case 'delete_customer':
                 return view('forms.delete-forms.delete-customer', ['id' => $id]);
+                break;
+
+            case 'delete_image':
+                return view('forms.delete-forms.delete-image', ['id' => $id]);
                 break;
         
             default:
