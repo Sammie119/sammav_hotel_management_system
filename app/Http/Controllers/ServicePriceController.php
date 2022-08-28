@@ -33,13 +33,8 @@ class ServicePriceController extends Controller
             'price' => $request->price,
         ]);
 
-        $history = new PriceHistory;
-        $history->service = $setprice->service;
-        $history->description = $setprice->description;
-        $history->price = $setprice->price;
-        $history->created_by = Auth()->user()->user_id;
-        $history->save();
-
+        $this->trackPriceChanges($setprice->service, $setprice->description, $setprice->price);
+        
         return redirect('prices')->with('success', 'Price Updated Successfully!!');
     }
     

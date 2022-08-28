@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('gallary_images', function (Blueprint $table) {
-            $table->id('image_id');
-            $table->unsignedInteger('room_type_id');
-            $table->unsignedInteger('room_id');
-            $table->string('image_src')->nullable();
-            $table->string('image_alt')->nullable();
+        Schema::create('payroll_dependecies', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedInteger('staff_id');
+            $table->json('income')->comment('basic, allowance, ect');
+            $table->json('deduction')->comment('Tax, Loans, ssnit, ect');
+            $table->json('loans')->nullable();
+            $table->json('repay_loan')->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gallary_images');
+        Schema::dropIfExists('payroll_dependecies');
     }
 };

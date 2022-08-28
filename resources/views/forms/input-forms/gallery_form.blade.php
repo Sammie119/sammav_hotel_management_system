@@ -6,7 +6,7 @@
     <div class="row mb-3">
         <div class="col-md-6">
             <div class="form-floating mb-3 mb-md-0">
-                <select class="form-control" name="room_type_id" required >
+                <select class="form-control" name="room_type_id" id="room_type" required >
                     <option value="" disabled selected>Room Type</option>
                     @foreach (\App\Models\RoomType::all() as $roomtype)
                         <option value="{{ $roomtype->r_type_id }}" @if (isset($image) && $roomtype->r_type_id === $image->room_type_id) selected @endif>{{ $roomtype->name }}</option>
@@ -22,14 +22,36 @@
             </div>
         </div>
     </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="form-floating">
+                <select class="form-control" name="room_id" id="room_id" required >
+                    <option value="" disabled selected>Room Number</option>
+                    @isset($image)
+                        @foreach (\App\Models\Room::all() as $room)
+                            <option value="{{ $room->room_id }}" @if (isset($image) && $room->room_id === $image->room_id) selected @endif>{{ $room->room_number }}</option>
+                        @endforeach
+                    @endisset
+                </select>
+                <label>Room Number</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            @if (isset($image))
+                <div class="form-floating mb-3">
+                    <input class="form-control"  name="image_src" multiple type="file" accept="image/*" placeholder=" " />
+                </div>
+            @endif
+            @if (!isset($image))
+                <div class="form-floating mb-3">
+                    <input class="form-control" name="image_src[]" multiple type="file" accept="image/*" required placeholder=" " />
+                </div>
+            @endif
+        </div>
+    </div>
     @if (isset($image))
         <div class="form-floating mb-3">
-            <input class="form-control"  name="image_src" multiple type="file" accept="image/*" placeholder=" " />
             <img src="{{ asset('storage/'.$image->image_src) }}" alt="{{ $image->image_alt }}">
-        </div>
-    @else
-        <div class="form-floating mb-3">
-            <input class="form-control" name="image_src[]" multiple type="file" accept="image/*" required placeholder=" " />
         </div>
     @endif
     

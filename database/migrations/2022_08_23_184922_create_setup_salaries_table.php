@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('gallary_images', function (Blueprint $table) {
-            $table->id('image_id');
-            $table->unsignedInteger('room_type_id');
-            $table->unsignedInteger('room_id');
-            $table->string('image_src')->nullable();
-            $table->string('image_alt')->nullable();
+        Schema::create('setup_salaries', function (Blueprint $table) {
+            $table->id('salary_id');
+            $table->unsignedBigInteger('staff_id');
+            $table->unsignedTinyInteger('salary_type_id');
+            $table->unsignedTinyInteger('department_id');
+            $table->unsignedTinyInteger('position_id');
+            $table->decimal('salary', 10, 2);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('gallary_images');
+        Schema::dropIfExists('setup_salaries');
     }
 };

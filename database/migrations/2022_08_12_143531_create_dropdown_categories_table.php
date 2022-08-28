@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\DropdownCategory;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -21,13 +22,13 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        DB::table('dropdown_categories')->insert([
-            'category' => 'Department',
-        ]);
-
-        DB::table('dropdown_categories')->insert([
-            'category' => 'Position',
-        ]);
+        $data = [
+            ['category'=> 'Department'],
+            ['category'=> 'Position'],
+            ['category'=> 'Salary Type'],
+        ];
+        
+        DropdownCategory::insert($data);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Dropdown;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -22,15 +23,24 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        DB::table('dropdowns')->insert([
-            'category_id' => 1,
-            'dropdown_name' => 'Administration',
-        ]);
+        $data = [
+            ['category_id'=>1, 'dropdown_name'=> 'Administration'],
+            ['category_id'=>2, 'dropdown_name'=> 'System Admin'],
+            ['category_id'=>1, 'dropdown_name'=> 'Accommodation'],
+            ['category_id'=>1, 'dropdown_name'=> 'Restaurant'],
+            ['category_id'=>1, 'dropdown_name'=> 'Bar'],
+            ['category_id'=>1, 'dropdown_name'=> 'Conference'],
+            ['category_id'=>1, 'dropdown_name'=> 'Kitchen'],
+            ['category_id'=>1, 'dropdown_name'=> 'Laundry'],
+            ['category_id'=>1, 'dropdown_name'=> 'Accounts'],
+            ['category_id'=>3, 'dropdown_name'=> 'Daily'],
+            ['category_id'=>3, 'dropdown_name'=> 'Weekly'],
+            ['category_id'=>3, 'dropdown_name'=> 'Monthly'],
+        ];
+        
+        Dropdown::insert($data);
+        // DB::table('dropdowns')->insert($data);
 
-        DB::table('dropdowns')->insert([
-            'category_id' => 2,
-            'dropdown_name' => 'System Admin',
-        ]);
     }
 
     /**

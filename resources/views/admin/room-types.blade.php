@@ -10,15 +10,7 @@
             <li class="breadcrumb-item active">Room Types</li>
         </ol>
     
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+        @include('includes.input-errors')
 
         <div class="card mb-4">
             <div class="card-header">
@@ -37,6 +29,7 @@
                             <th>#</th>
                             <th>Name</th>
                             <th>Description</th>
+                            <th>Pictures</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -46,6 +39,7 @@
                                 <td>{{ ++$key }}</td>
                                 <td>{{ $roomType->name }}</td>
                                 <td>{{ $roomType->description }}</td>
+                                <td>{{ count($roomType->galleryimages) }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <button class="btn btn-success btn-sm edit" value="{{ $roomType->r_type_id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="Edit Details"><i class="fas fa-edit"></i></button>

@@ -12,6 +12,19 @@
                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                 Users
             </a>
+
+            <a class="nav-link collapsed {{ request()->is('staff') ? 'active' : '' }} {{ request()->is('payroll') ? 'active' : '' }} {{ request()->is('salary') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#hrm" aria-expanded="false" aria-controls="hrm">
+                <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
+                Human Res. Mgt.
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="hrm" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="{{ route('staff') }}">Staff</a>
+                    <a class="nav-link" href="{{ route('salary') }}">Salaries</a>
+                    <a class="nav-link" href="{{ route('payroll') }}">Payroll</a>
+                </nav>
+            </div>
             
             <div class="sb-sidenav-menu-heading">Settings</div>
 
@@ -20,12 +33,12 @@
                 Dropdowns
             </a>
 
-             <a class="nav-link collapsed {{ request()->is('room_types') ? 'active' : '' }} {{ request()->is('rooms') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
+            <a class="nav-link collapsed {{ request()->is('room_types') ? 'active' : '' }} {{ request()->is('rooms') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#room-setup" aria-expanded="false" aria-controls="room-setup">
                 <div class="sb-nav-link-icon"><i class="fas fa-city"></i></div>
                 Room Setup
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
             </a>
-            <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+            <div class="collapse" id="room-setup" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                 <nav class="sb-sidenav-menu-nested nav">
                     <a class="nav-link" href="{{ route('room_types') }}">Room Types</a>
                     <a class="nav-link" href="{{ route('rooms') }}">Rooms</a>

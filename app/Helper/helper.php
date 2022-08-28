@@ -35,23 +35,35 @@
         }
     }
 
-    function getRoomStatus($role)
+    function getRoomStatus($status)
     { 
-        switch ($role) {
+        switch ($status) {
             case 0:
-                return "Empty";
-                break;
-            
-            case 1:
-                return "Booked";
+                return "Vacant Clean";
                 break;
 
+            case 1:
+                return "Vacant Dirty";
+                break;
+            
             case 2:
-                return "Occupied";
+                return "Reserved/Booked";
+                break;
+
+            case 3:
+                return "Occupied Clean";
+                break;
+
+            case 4:
+                return "Occupied Dirty";
+                break;
+            
+            case 5:
+                return "Out of Order";
                 break;
 
             default:
-                return "No Role for User";
+                return "No Status";
                 break;
         }
     }

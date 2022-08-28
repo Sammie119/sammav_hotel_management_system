@@ -1,13 +1,13 @@
 @extends('layouts.admin.app')
 
-@section('title', 'HMS | Users')
+@section('title', 'HMS | Salary Setup')
 
 @section('content')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Users</h1>
+        <h1 class="mt-4">Salary Setup</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Users</li>
+            <li class="breadcrumb-item active">Salary Setup</li>
         </ol>
     
         @include('includes.input-errors')
@@ -15,8 +15,8 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                Users List
-                <button class="btn btn-sm sammav-btn float-end create" value="new_user" data-bs-target="#getModal" data-bs-toggle="modal" title="New User">Add User</button>
+                Salary List
+                {{-- <button class="btn btn-sm sammav-btn float-end create" value="new_salary" data-bs-target="#getModal" data-bs-toggle="modal" title="New User">Add salary</button> --}}
                 <form class="d-flex float-end input-group-sm" role="search">
                     <input class="form-control me-2" type="search" id="search" placeholder="Search" aria-label="Search" >
                     <button class="btn btn-sm me-2"><i class="fas fa-search"></i></button>
@@ -27,31 +27,29 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Username</th>
-                            <th>Department</th>
+                            <th>Full Name</th>
+                            <th>Age</th>
+                            <th>Qualification</th>
                             <th>Position</th>
-                            <th>P. Contact</th>
-                            <th>C. Contact</th>
-                            <th>User Level</th>
+                            <th>Salary Type</th>
+                            <th>B. Salary</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="employee_table">
-                        @forelse ($users as $key => $user)
+                        @forelse ($salary as $key => $salary)
                             <tr>
                                 <td>{{ ++$key }}</td>
-                                <td>{{ $user->name }}</td>
-                                <td>{{ $user->username }}</td>
-                                <td>{{ getDropdownName($user->department) }}</td>
-                                <td>{{ getDropdownName($user->position) }}</td>
-                                <td>{{ $user->p_contact }}</td>
-                                <td>{{ $user->o_contact }}</td>
-                                <td>{{ getUserRole($user->role) }}</td>
+                                <td>{{ $salary->fullname }}</td>
+                                <td>{{ $salary->age }}</td>
+                                <td>{{ $salary->qualification }}</td>
+                                <td>{{ $salary->position }}</td>
+                                <td>{{ $salary->salary_type }}</td>
+                                <td>{{ $salary->salary }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-success btn-sm edit" value="{{ $user->user_id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="Edit Details"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm delete" value="{{ $user->user_id }}" data-bs-toggle="modal" data-bs-target="#comfirm-delete" role="button"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-success btn-sm edit" value="{{ $salary->salary_id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="Edit Details"><i class="fas fa-edit"></i></button>
+                                        <button class="btn btn-info btn-sm payment" value="{{ $salary->salary_id }}" data-bs-toggle="modal" data-bs-target="#getlargeModal" title="Payroll"><i class="fas fa-eye"></i></button>
                                     </div>
                                 </td>
                             </tr> 
@@ -67,7 +65,7 @@
         </div>
     </div>
     @include('modals.medium-modal')
-    @include('modals.confirm-modal')
+    @include('modals.large-modal')
 
     @push('scripts')
         <script>
@@ -95,36 +93,26 @@
                     });  
                 }  
 
-                $('#editModal').on('shown.bs.modal', function () {
+                $('#getModal').on('shown.bs.modal', function () {
 
-                });
-
-                $(document).on('click', '.create', function(){
-                    $('.modal-title').text('Add New User');
-                    
-                    var createModal=$(this).val();
-                    $.get('create-modal/'+createModal, function(result) {
-                        
-                        $(".modal-body").html(result);
-
-                    })
                 });
 
                 $(document).on('click', '.edit', function(){
-                    $('.modal-title').text('Edit User Details');
+                    $('.modal-title').text('Edit Salary Details');
 
                     var editModal=$(this).val();
-                    $.get('edit-modal/edit_user/'+editModal, function(result) {
+                    $.get('edit-modal/edit_salary/'+editModal, function(result) {
                         
                         $(".modal-body").html(result);
                         
                     })
                 });
 
-                $(document).on('click', '.delete', function(){
-                    
-                    var id=$(this).val();
-                    $.get('delete-modal/delete_user/'+id, function(result) {
+                $(document).on('click', '.payment', function(){
+                    $('.modal-title').text('Payroll/Payment');
+
+                    var editModal=$(this).val();
+                    $.get('edit-modal/'+editModal, function(result) {
                         
                         $(".modal-body").html(result);
                         

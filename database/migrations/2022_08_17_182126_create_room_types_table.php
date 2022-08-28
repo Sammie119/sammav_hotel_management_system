@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id('r_type_id');
             $table->string('name')->nullable();;
             $table->string('description')->nullable();
-            $table->unsignedTinyInteger('status')->default(0)->comment('0 = empty, 1 = booked, 2 = occupied');
+            $table->unsignedTinyInteger('status')->default(0)->comment('0 = Vacant, 1 = booked, 2 = occupied, ect');
             $table->timestamps();
             $table->softDeletes();
         });

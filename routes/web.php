@@ -5,9 +5,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\FormRequestController;
+use App\Http\Controllers\GetAjaxRequestController;
+use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\ServicePriceController;
+use App\Http\Controllers\StaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +79,20 @@ Route::middleware(['adminCheck'])->group(function () {
         Route::post('store_price', 'store');   
     });
 
+    Route::controller(StaffController::class)->group(function () {
+        Route::get('staff', 'index')->name('staff');
+        Route::post('store_staff', 'store');
+        Route::get('delete_staff/{id}', 'destroy');    
+        Route::get('salary', 'salaryIndex')->name('salary');
+        Route::post('store_salary', 'updateSalary');
+    });
+
+    Route::controller(PayrollController::class)->group(function () {
+        Route::get('payroll', 'index')->name('payroll');
+        Route::post('store_payroll', 'store');
+        Route::get('delete_payroll/{id}', 'destroy');    
+    });
+
 });
 
 Route::middleware(['authCheck'])->group(function () {
@@ -97,5 +114,9 @@ Route::controller(FormRequestController::class)->group(function () {
 
     // Modal delete Route
     Route::get('delete-modal/{data}/{id}', 'getDeleteModalData');
+});
+
+Route::controller(GetAjaxRequestController::class)->group(function () {
+    Route::get('get-room', 'getRoomFromRoomType');  
 });
 

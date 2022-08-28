@@ -85,6 +85,7 @@ class RoomTypeController extends Controller
 
     public function galleryStore(Request $request)
     {
+        // dd($request->all());
         request()->validate([
             'room_type_id' => 'required',
             'images_src.*' => 'required|mimes:jpeg,png,jpg,gif',
@@ -92,7 +93,7 @@ class RoomTypeController extends Controller
         ]);
 
         if($request->has('id')){
-            // dd($request->all());
+            
             $images = GallaryImages::find($request->id);
 
             if($request->has('image_src')){
@@ -109,6 +110,7 @@ class RoomTypeController extends Controller
             }
             
             $images->room_type_id = $request->room_type_id;
+            $images->room_id = $request->room_id;
             $images->image_alt = $request->image_alt;
             $images->updated_by = Auth()->user()->user_id;
 
@@ -127,6 +129,7 @@ class RoomTypeController extends Controller
                 $image_src->move($destinationPath, $gal_image);
                 
                 $images->room_type_id = $request->room_type_id;
+                $images->room_id = $request->room_id;
                 $images->image_src = 'gallery_images/'.$gal_image;
                 $images->image_alt = $request->image_alt."_".$key;
                 $images->created_by = Auth()->user()->user_id;

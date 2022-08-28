@@ -9,6 +9,8 @@ use App\Models\Dropdown;
 use App\Models\GallaryImages;
 use App\Models\RoomType;
 use App\Models\ServicePrice;
+use App\Models\Staff;
+use App\Models\VWStaff;
 use Illuminate\Http\Request;
 
 class FormRequestController extends Controller
@@ -38,6 +40,10 @@ class FormRequestController extends Controller
 
             case 'new_image':
                 return view('forms.input-forms.gallery_form');
+                break;
+
+            case 'new_staff':
+                return view('forms.input-forms.staff_form');
                 break;
 
             default:
@@ -83,7 +89,17 @@ class FormRequestController extends Controller
                 $image = GallaryImages::find($id);
                 return view('forms.input-forms.gallery_form', ['image' => $image]);
                 break;
-            
+
+            case 'edit_staff':
+                $staff = Staff::find($id);
+                return view('forms.input-forms.staff_form', ['staff' => $staff]);
+                break;
+
+            case 'edit_salary':
+                $staff = VWStaff::where('salary_id', $id)->first();
+                return view('forms.input-forms.salary_form', ['staff' => $staff]);
+                break;
+        
             default:
                 return "No Form Selected";
                 break;
@@ -96,6 +112,11 @@ class FormRequestController extends Controller
             case 'view_image':
                 $image = GallaryImages::find($id);
                 return view('forms.view-forms.gallery_view', ['image' => $image]);
+                break;
+
+            case 'view_staff':
+                $staff = VWStaff::where('staff_id', $id)->first();
+                return view('forms.view-forms.staff_view', ['staff' => $staff]);
                 break;
             
             default:
@@ -129,6 +150,10 @@ class FormRequestController extends Controller
 
             case 'delete_image':
                 return view('forms.delete-forms.delete-image', ['id' => $id]);
+                break;
+
+            case 'delete_staff':
+                return view('forms.delete-forms.delete-staff', ['id' => $id]);
                 break;
         
             default:
