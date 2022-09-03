@@ -7,6 +7,8 @@ use App\Models\Room;
 use App\Models\User;
 use App\Models\Dropdown;
 use App\Models\GallaryImages;
+use App\Models\Loan;
+use App\Models\PayrollDependecy;
 use App\Models\RoomType;
 use App\Models\ServicePrice;
 use App\Models\Staff;
@@ -44,6 +46,10 @@ class FormRequestController extends Controller
 
             case 'new_staff':
                 return view('forms.input-forms.staff_form');
+                break;
+
+            case 'new_loan':
+                return view('forms.input-forms.loan_form');
                 break;
 
             default:
@@ -99,13 +105,42 @@ class FormRequestController extends Controller
                 $staff = VWStaff::where('salary_id', $id)->first();
                 return view('forms.input-forms.salary_form', ['staff' => $staff]);
                 break;
+
+            case 'edit_salary_paymemt':
+                $staff = VWStaff::where('salary_id', $id)->first();
+                $pay = PayrollDependecy::where('staff_id', $staff->staff_id)->orderByDesc('id')->first();
+                $loans = Loan::where([
+                                    ['staff_id', '=', $staff->staff_id],
+                                    ['status', '!=', 2],
+                                ])->get();
+                return view('forms.input-forms.salary_payment_form', [
+                    'staff' => $staff, 
+                    'pay' => $pay,
+                    'loans' => $loans,
+                ]);
+                break;
+
+            // Use when the need be
+            case 'edit_all_payment':
+                $staff = VWStaff::where('salary_id', $id)->first();
+                return '<h1>Edit All</h1>';
+                // return view('forms.input-forms.salary_payment_form', ['staff' => $staff]);
+                break;
+            // Use when the need be
+
+            case 'edit_loan':
+                $loan = Loan::find($id);
+                $staff = VWStaff::where('staff_id', $loan->staff_id)->first();
+                return view('forms.input-forms.loan_form', ['loan' => $loan, 'staff' => $staff]);
+                break;
         
             default:
                 return "No Form Selected";
                 break;
         }
    }
-
+   
+   
    public function getViewModalData($data, $id)
    {
         switch ($data) {
@@ -117,6 +152,18 @@ class FormRequestController extends Controller
             case 'view_staff':
                 $staff = VWStaff::where('staff_id', $id)->first();
                 return view('forms.view-forms.staff_view', ['staff' => $staff]);
+                break;
+
+            case 'view_all_payment':
+                $staff = VWStaff::where('staff_id', $id)->first();
+                return '<h1>View All</h1>';
+                // return view('forms.view-forms.staff_view', ['staff' => $staff]);
+                break;
+
+            case 'view_loan':
+                $loan = Loan::find($id);
+                $staff = VWStaff::where('staff_id', $loan->staff_id)->first();
+                return view('forms.view-forms.loan_view', ['loan' => $loan, 'staff' => $staff]);
                 break;
             
             default:
@@ -154,6 +201,16 @@ class FormRequestController extends Controller
 
             case 'delete_staff':
                 return view('forms.delete-forms.delete-staff', ['id' => $id]);
+                break;
+            
+            // Use when the need be 
+            case 'delete_all_paymemt':
+                return view('forms.delete-forms.delete-paid-salary', ['id' => $id]);
+                break;
+            // Use when the need be
+
+            case 'delete_loan':
+                return view('forms.delete-forms.delete-loan', ['id' => $id]);
                 break;
         
             default:

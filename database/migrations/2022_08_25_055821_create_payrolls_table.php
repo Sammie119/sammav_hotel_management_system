@@ -18,9 +18,11 @@ return new class extends Migration
             $table->unsignedInteger('staff_id');
             $table->unsignedBigInteger('depend_id')->references()->on('payroll_dependecies')->onDelete('cascade');;
             $table->string('description');
-            $table->decimal('gross_income', 10,2);
-            $table->decimal('net_income', 10,2);
-            $table->string('pay_month', 15);
+            $table->string('positon', 50);
+            $table->decimal('basic', 12,2);
+            $table->decimal('gross_income', 12,2);
+            $table->decimal('net_income', 12,2);
+            $table->string('pay_month', 20);
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();

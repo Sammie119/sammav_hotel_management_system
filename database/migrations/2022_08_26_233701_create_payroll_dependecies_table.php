@@ -16,10 +16,15 @@ return new class extends Migration
         Schema::create('payroll_dependecies', function (Blueprint $table) {
             $table->id();
             $table->unsignedInteger('staff_id');
-            $table->json('income')->comment('basic, allowance, ect');
-            $table->json('deduction')->comment('Tax, Loans, ssnit, ect');
-            $table->json('loans')->nullable();
-            $table->json('repay_loan')->nullable();
+            $table->json('incomes')->comment('basic, allowance, ect')->nullable();
+            $table->json('rate_incomes')->comment('amonut, percentage')->nullable();
+            $table->json('amount_incomes')->comment('basic, allowance, ect')->nullable();
+            $table->json('deductions')->comment('Tax, Loans, ssnit, ect')->nullable();
+            $table->json('rate_deductions')->comment('amonut, percentage')->nullable();
+            $table->json('amount_deductions')->comment('Tax, Loans, ssnit, ect')->nullable();
+            $table->decimal('tax', 8,2)->default(0.00)->comment('part of deductions');
+            $table->decimal('employer_ssf', 8,2)->default(0.00);
+            $table->decimal('employee_ssf', 8,2)->default(0.00)->comment('part of deductions');
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();

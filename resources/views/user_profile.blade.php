@@ -160,6 +160,7 @@
                 });
 
                 $(document).on('click', '.delete', function(){
+                    $('.modal-title').text('Delete Confirmation');
                     
                     var id=$(this).val();
                     $.get('delete-modal/delete_customer/'+id, function(result) {

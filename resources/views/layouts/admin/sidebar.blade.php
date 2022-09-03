@@ -13,7 +13,10 @@
                 Users
             </a>
 
-            <a class="nav-link collapsed {{ request()->is('staff') ? 'active' : '' }} {{ request()->is('payroll') ? 'active' : '' }} {{ request()->is('salary') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#hrm" aria-expanded="false" aria-controls="hrm">
+            <a class="nav-link collapsed {{ request()->is('staff') ? 'active' : '' }} 
+                    {{ request()->is('payroll') ? 'active' : '' }} 
+                    {{ request()->is('salary') ? 'active' : '' }}
+                    {{ request()->is('loans') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#hrm" aria-expanded="false" aria-controls="hrm">
                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                 Human Res. Mgt.
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -23,6 +26,7 @@
                     <a class="nav-link" href="{{ route('staff') }}">Staff</a>
                     <a class="nav-link" href="{{ route('salary') }}">Salaries</a>
                     <a class="nav-link" href="{{ route('payroll') }}">Payroll</a>
+                    <a class="nav-link" href="{{ route('loans') }}">Loans</a>
                 </nav>
             </div>
             

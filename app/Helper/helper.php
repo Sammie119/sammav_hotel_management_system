@@ -68,6 +68,27 @@
         }
     }
 
+    function getLoanStatus($status) 
+    {
+        switch ($status) {
+            case 0:
+                return "Pending";
+                break;
+            
+            case 1:
+                return "Paying";
+                break;
+
+            case 2:
+                return "Paid";
+                break;
+
+            default:
+                return "No Status";
+                break;
+        }
+    }
+
     function getUsername($user_id)
     {
         return Illuminate\Support\Facades\DB::table('users')->select('username')->where('user_id', $user_id)->first()->username;

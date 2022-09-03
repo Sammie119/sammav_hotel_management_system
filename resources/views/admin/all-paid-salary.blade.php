@@ -1,13 +1,14 @@
 @extends('layouts.admin.app')
 
-@section('title', 'HMS | Rooms Setup')
+@section('title', 'HMS | Paid Salaries')
 
 @section('content')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Room Types</h1>
+        <h1 class="mt-4">{{ $staff_name->fullname }}</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Room Types</li>
+            <li class="breadcrumb-item"><a href="{{ route('payroll') }}">Payroll</a></li>
+            <li class="breadcrumb-item active">Paid Salaries</li>
         </ol>
     
         @include('includes.input-errors')
@@ -15,8 +16,8 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                Room Type List
-                <button class="btn btn-sm sammav-btn float-end create" value="new_roomtype" data-bs-target="#getModal" data-bs-toggle="modal" title="New Dropdown">Add Room Type</button>
+                Paid Salary List
+                {{-- <button class="btn btn-sm sammav-btn float-end create" value="new_salary" data-bs-target="#getModal" data-bs-toggle="modal" title="New User">Add Payment</button> --}}
                 <form class="d-flex float-end input-group-sm" role="search">
                     <input class="form-control me-2" type="search" id="search" placeholder="Search" aria-label="Search" >
                     <button class="btn btn-sm me-2"><i class="fas fa-search"></i></button>
@@ -27,23 +28,36 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Description</th>
-                            <th>Pictures</th>
+                            <th>Position</th>
+                            <th>Salary Type</th>
+                            <th>B. Salary</th>
+                            <th>Allowances</th>
+                            <th>Deductions</th>
+                            <th>Net Salary</th>
+                            <th>Month</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="employee_table">
-                        @forelse ($roomTypes as $key => $roomType)
+                        @forelse ($payments as $key => $payment)
                             <tr>
+                                @php
+                                    $amount_incomes = (empty($payment->amount_incomes)) ? 0 : array_sum($payment->amount_incomes);
+                                    $amount_deductions = (empty($payment->amount_deductions)) ? 0 : array_sum($payment->amount_deductions);
+                                @endphp
                                 <td>{{ ++$key }}</td>
-                                <td>{{ $roomType->name }}</td>
-                                <td>{{ $roomType->description }}</td>
-                                <td>{{ count($roomType->galleryimages) }}</td>
+                                <td>{{ $staff_name->position }}</td>
+                                <td>{{ $staff_name->salary_type }}</td>
+                                <td>{{ number_format($staff_name->salary, 2) }}</td>
+                                <td>{{ number_format($amount_incomes, 2) }}</td>
+                                <td>{{ number_format($amount_deductions, 2) }}</td>
+                                <td>{{ number_format(($staff_name->salary + $amount_incomes) - $amount_deductions, 2) }}</td>
+                                <td>Month</td>
                                 <td>
                                     <div class="btn-group">
-                                        <button class="btn btn-success btn-sm edit" value="{{ $roomType->r_type_id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="Edit Details"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-danger btn-sm delete" value="{{ $roomType->r_type_id }}" data-bs-toggle="modal" data-bs-target="#comfirm-delete" role="button"><i class="fas fa-trash"></i></button>
+                                          <button class="btn btn-info btn-sm view" value="{{ $payment->id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="View Details"><i class="fas fa-eye"></i></button>
+                                          {{-- <button class="btn btn-success btn-sm edit" value="{{ $payment->id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="Edit Details"><i class="fas fa-edit"></i></button>
+                                          <button class="btn btn-danger btn-sm delete" value="{{ $payment->id }}" data-bs-toggle="modal" data-bs-target="#comfirm-delete" role="button"><i class="fas fa-trash"></i></button> --}}
                                     </div>
                                 </td>
                             </tr> 
@@ -87,26 +101,26 @@
                     });  
                 }  
 
-                $('#editModal').on('shown.bs.modal', function () {
-
+                $('#getModal').on('shown.bs.modal', function () {
+              
                 });
 
-                $(document).on('click', '.create', function(){
-                    $('.modal-title').text('Add Room Type');
-                    
-                    var createModal=$(this).val();
-                    $.get('create-modal/'+createModal, function(result) {
+                $(document).on('click', '.view', function(){
+                    $('.modal-title').text('View Salary Paid Details');
+
+                    var viewModal=$(this).val();
+                    $.get('../view-modal/view_all_payment/'+viewModal, function(result) {
                         
                         $(".modal-body").html(result);
-
+                        
                     })
                 });
 
                 $(document).on('click', '.edit', function(){
-                    $('.modal-title').text('Edit Room Type');
+                    $('.modal-title').text('Edit Salary Payment Details');
 
                     var editModal=$(this).val();
-                    $.get('edit-modal/edit_roomtype/'+editModal, function(result) {
+                    $.get('../edit-modal/edit_all_payment/'+editModal, function(result) {
                         
                         $(".modal-body").html(result);
                         
@@ -115,15 +129,14 @@
 
                 $(document).on('click', '.delete', function(){
                     $('.modal-title').text('Delete Confirmation');
-                    
+            
                     var id=$(this).val();
-                    $.get('delete-modal/delete_roomtype/'+id, function(result) {
+                    $.get('../delete-modal/delete_all_paymemt/'+id, function(result) {
                         
                         $(".modal-body").html(result);
                         
                     })
                 });
-
             };
             
         </script>

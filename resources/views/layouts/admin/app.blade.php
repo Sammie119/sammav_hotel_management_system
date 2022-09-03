@@ -86,7 +86,7 @@
             "closeButton" : true,
             "progressBar" : true
             }
-            toastr.error("{!! Session::get('success') !!}");
+            toastr.error("{!! Session::get('error') !!}");
         </script>
     @endif
 

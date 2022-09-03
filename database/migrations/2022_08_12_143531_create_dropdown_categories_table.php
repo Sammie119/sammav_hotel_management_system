@@ -26,6 +26,9 @@ return new class extends Migration
             ['category'=> 'Department'],
             ['category'=> 'Position'],
             ['category'=> 'Salary Type'],
+            ['category'=> 'Allowances'],
+            ['category'=> 'Deductions'],
+            ['category'=> 'Loan Type'],
         ];
         
         DropdownCategory::insert($data);

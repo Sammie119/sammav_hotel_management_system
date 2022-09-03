@@ -15,18 +15,60 @@ class PayrollDependecy extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'income' => 'array',
-        'deduction' => 'array'
+        'incomes' => 'array',
+        'deductions' => 'array',
+        'amount_incomes' => 'array',
+        'amount_deductions' => 'array',
+        'rate_incomes' => 'array',
+        'rate_deductions' => 'array'
     ];
 
-    // protected function setAdminPermissionsAttribute($request_perms)
+    // protected function setIncomesAttribute($request_perms)
     // {
     //     $perms = array();
         
     //     foreach ($request_perms as $val) {
-    //         $perm = ['admin_permission' => $val];
+    //         $perm = ['income' => $val];
     //         array_push($perms, $perm);
     //     }
-    //     $this->attributes['admin_permissions'] =  json_encode(array("admin_permissions" => $perms));
+    //     $this->attributes['incomes'] =  json_encode($perms);
     // }
+
+    // protected function setAmountIncomesAttribute($request_perms)
+    // {
+    //     $perms = array();
+        
+    //     foreach ($request_perms as $val) {
+    //         $perm = ['amount_income' => $val];
+    //         array_push($perms, $perm);
+    //     }
+    //     $this->attributes['amount_incomes'] =  json_encode($perms);
+    // }
+
+    // protected function setDeductionsAttribute($request_perms)
+    // {
+    //     $perms = array();
+        
+    //     foreach ($request_perms as $val) {
+    //         $perm = ['deduction' => $val];
+    //         array_push($perms, $perm);
+    //     }
+    //     $this->attributes['deductions'] =  json_encode($perms);
+    // }
+
+    // protected function setAmountDeductionsAttribute($request_perms)
+    // {
+    //     $perms = array();
+        
+    //     foreach ($request_perms as $val) {
+    //         $perm = ['amount_deduction' => $val];
+    //         array_push($perms, $perm);
+    //     }
+    //     $this->attributes['amount_deductions'] =  json_encode($perms);
+    // }
+
+    public function pay_staff()
+    {
+        return $this->belongsTo(Staff::class, 'staff_id');
+    }
 }

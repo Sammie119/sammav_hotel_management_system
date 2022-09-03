@@ -45,7 +45,7 @@
                                 <td>{{ $salary->qualification }}</td>
                                 <td>{{ $salary->position }}</td>
                                 <td>{{ $salary->salary_type }}</td>
-                                <td>{{ $salary->salary }}</td>
+                                <td>{{ number_format($salary->salary, 2) }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <button class="btn btn-success btn-sm edit" value="{{ $salary->salary_id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="Edit Details"><i class="fas fa-edit"></i></button>

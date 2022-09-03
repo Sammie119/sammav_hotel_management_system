@@ -6,6 +6,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DropdownController;
 use App\Http\Controllers\FormRequestController;
 use App\Http\Controllers\GetAjaxRequestController;
+use App\Http\Controllers\LoanController;
 use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
@@ -90,7 +91,14 @@ Route::middleware(['adminCheck'])->group(function () {
     Route::controller(PayrollController::class)->group(function () {
         Route::get('payroll', 'index')->name('payroll');
         Route::post('store_payroll', 'store');
-        Route::get('delete_payroll/{id}', 'destroy');    
+        Route::get('view_paid_salaries/{id}', 'viewSalariesPaid')->name('view_paid_salaries');
+        Route::get('delete_all_paymemt/{id}', 'destroy');    
+    });
+
+    Route::controller(LoanController::class)->group(function () {
+        Route::get('loans', 'index')->name('loans');
+        Route::post('store_loan', 'store');
+        Route::get('delete_loan/{id}', 'destroy');    
     });
 
 });
@@ -117,6 +125,7 @@ Route::controller(FormRequestController::class)->group(function () {
 });
 
 Route::controller(GetAjaxRequestController::class)->group(function () {
-    Route::get('get-room', 'getRoomFromRoomType');  
+    Route::get('get-room', 'getRoomFromRoomType');
+    Route::get('get-staff-info', 'getStaffInfo');  
 });
 
