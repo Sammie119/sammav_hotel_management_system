@@ -16,7 +16,8 @@
             <a class="nav-link collapsed {{ request()->is('staff') ? 'active' : '' }} 
                     {{ request()->is('payroll') ? 'active' : '' }} 
                     {{ request()->is('salary') ? 'active' : '' }}
-                    {{ request()->is('loans') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#hrm" aria-expanded="false" aria-controls="hrm">
+                    {{ request()->is('loans') ? 'active' : '' }}
+                    {{ request()->is('sms') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#hrm" aria-expanded="false" aria-controls="hrm">
                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
                 Human Res. Mgt.
                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
@@ -27,15 +28,11 @@
                     <a class="nav-link" href="{{ route('salary') }}">Salaries</a>
                     <a class="nav-link" href="{{ route('payroll') }}">Payroll</a>
                     <a class="nav-link" href="{{ route('loans') }}">Loans</a>
+                    <a class="nav-link" href="{{ route('sms') }}">SMS</a>
                 </nav>
             </div>
             
             <div class="sb-sidenav-menu-heading">Settings</div>
-
-            <a class="nav-link {{ request()->is('dropdowns') ? 'active' : '' }}" href="{{ route('dropdowns') }}">
-                <div class="sb-nav-link-icon"><i class="fas fa-angle-double-down"></i></div>
-                Dropdowns
-            </a>
 
             <a class="nav-link collapsed {{ request()->is('room_types') ? 'active' : '' }} {{ request()->is('rooms') ? 'active' : '' }}" href="#" data-bs-toggle="collapse" data-bs-target="#room-setup" aria-expanded="false" aria-controls="room-setup">
                 <div class="sb-nav-link-icon"><i class="fas fa-city"></i></div>
@@ -51,18 +48,32 @@
 
             <a class="nav-link {{ request()->is('customers') ? 'active' : '' }}" href="{{ route('customers') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-users"></i></div>
-                Customers
-            </a>
-
-            <a class="nav-link {{ request()->is('prices') ? 'active' : '' }}" href="{{ route('prices') }}">
-                <div class="sb-nav-link-icon"><i class="fas fa-money-bill-alt"></i></div>
-                Price Setup
+                Guests
             </a>
 
             <a class="nav-link {{ request()->is('setup_image') ? 'active' : '' }}" href="{{ route('setup_image') }}">
                 <div class="sb-nav-link-icon"><i class="fas fa-images"></i></div>
                 Gallery Setup
             </a>
+
+            <a class="nav-link collapsed 
+                {{ request()->is('prices') ? 'active' : '' }}
+                {{ request()->is('dropdowns') ? 'active' : '' }}
+                {{ request()->is('tax') ? 'active' : '' }}
+                {{ request()->is('setup') ? 'active' : '' }}
+                " href="#" data-bs-toggle="collapse" data-bs-target="#setup" aria-expanded="false" aria-controls="room-setup">
+                <div class="sb-nav-link-icon"><i class="fas fa-city"></i></div>
+                System Setups
+                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+            </a>
+            <div class="collapse" id="setup" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                <nav class="sb-sidenav-menu-nested nav">
+                    <a class="nav-link" href="{{ route('prices') }}">Price Setup</a>
+                    <a class="nav-link" href="{{ route('tax') }}">Tax Setup</a>
+                    <a class="nav-link" href="{{ route('dropdowns') }}">Dropdowns</a>
+                    <a class="nav-link" href="{{ route('setup') }}">Hotel Name</a>
+                </nav>
+            </div>
             
         </div>
     </div>

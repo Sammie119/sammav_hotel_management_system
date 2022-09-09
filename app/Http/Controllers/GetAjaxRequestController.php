@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Customer;
 use App\Models\Room;
 use App\Models\VWStaff;
 use Illuminate\Http\Request;
@@ -31,6 +32,33 @@ class GetAjaxRequestController extends Controller
         else{
             $results = [
                 'staff_id' => 'No_data'
+            ];
+        }
+
+        return response()->json($results);
+    }
+
+    public function getSMSRecipient(Request $request)
+    {
+        $staff = VWStaff::where('fullname', $request['recipient'])->first();
+
+        $customer = Customer::where('name', $request['recipient'])->first();
+
+        if(isset($staff)){
+            $results = [
+                'name' => $staff->fullname,
+                'phone' => $staff->phone,
+            ];
+        }
+        elseif (isset($customer)) {
+            $results = [
+                'name' => $customer->name,
+                'phone' => $customer->phone,
+            ];
+        }
+        else{
+            $results = [
+                'phone' => 'No_data'
             ];
         }
 

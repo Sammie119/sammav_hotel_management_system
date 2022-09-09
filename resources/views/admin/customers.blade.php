@@ -1,13 +1,13 @@
 @extends('layouts.admin.app')
 
-@section('title', 'HMS | Customers')
+@section('title', 'HMS | Guests')
 
 @section('content')
     <div class="container-fluid px-4">
-        <h1 class="mt-4">Customers</h1>
+        <h1 class="mt-4">Guests</h1>
         <ol class="breadcrumb mb-4">
             <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
-            <li class="breadcrumb-item active">Customers</li>
+            <li class="breadcrumb-item active">Guests</li>
         </ol>
     
         @include('includes.input-errors')
@@ -15,8 +15,8 @@
         <div class="card mb-4">
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
-                Customers List
-                <button class="btn btn-sm sammav-btn float-end create" value="new_customer" data-bs-target="#getModal" data-bs-toggle="modal" title="New Dropdown">Add Customer</button>
+                Guests List
+                <button class="btn btn-sm sammav-btn float-end create" value="new_customer" data-bs-target="#getModal" data-bs-toggle="modal" title="New Dropdown">Add Guest</button>
                 <form class="d-flex float-end input-group-sm" role="search">
                     <input class="form-control me-2" type="search" id="search" placeholder="Search" aria-label="Search" >
                     <button class="btn btn-sm me-2"><i class="fas fa-search"></i></button>
@@ -94,7 +94,7 @@
                 });
 
                 $(document).on('click', '.create', function(){
-                    $('.modal-title').text('Add Customer');
+                    $('.modal-title').text('Add Guest');
                     
                     var createModal=$(this).val();
                     $.get('create-modal/'+createModal, function(result) {

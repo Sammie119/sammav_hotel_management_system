@@ -44,19 +44,19 @@
     <div class="row mb-3">
         <div class="col-md-4">
             <div class="form-floating mb-3">
-                <input class="form-control bg-white" value="{{ $staff->salary }}" type="number" min="0" step="0.01" name="tax" required placeholder=" " />
+                <input class="form-control bg-white" value="{{ number_format(getTax($staff->salary, $staff->staff_id), 2, '.', '') }}" type="number" min="0" step="0.01" name="tax" readonly placeholder=" " />
                 <label>Income/PAYE Tax</label>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-floating mb-3">
-                <input class="form-control bg-white" value="{{ $staff->salary }}" type="number" min="0" step="0.01" name="employer_ssf" required placeholder=" " />
+                <input class="form-control bg-white" value="{{ number_format(getSsfEmployer($staff->salary), 2, '.', '') }}" type="number" min="0" step="0.01" name="employer_ssf" readonly placeholder=" " />
                 <label>Employer SSF</label>
             </div>
         </div>
         <div class="col-md-4">
             <div class="form-floating mb-3">
-                <input class="form-control bg-white" value="{{ $staff->salary }}" type="number" min="0" step="0.01" name="ssf_employee" required placeholder=" " />
+                <input class="form-control bg-white" value="{{ number_format(getSsfEmployee($staff->salary), 2, '.', '') }}" type="number" min="0" step="0.01" name="employee_ssf" readonly placeholder=" " />
                 <label>SSF Employee</label>
             </div>
         </div>

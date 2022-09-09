@@ -23,7 +23,8 @@
                 </form>
             </div>
             <div class="card-body">
-                <form action="" method="post">
+                <form action="generate_payroll" method="post">
+                    @csrf
                     <div class="row mb-3">
                         <div class="col-md-2">
                             <div class="form-floating mb-3 mb-md-0">
@@ -66,9 +67,20 @@
                             </div>
                         </div>
                         <div class="col-md-2">
-                            <div class="form-floating">
-                                <button type="submit" class="btn btn-success"><i class="fas fa-spinner"></i> Generate Payroll</button>
+                            <div class="form-floating mb-3 mb-md-0">
+                                <select class="form-control" name="salary_type" required placeholder=" " >
+                                    <option value="" disabled selected>--Select--</option>
+                                    @forelse (\App\Models\Dropdown::where('category_id', 3)->get() as $dropdown)
+                                        <option>{{ $dropdown->dropdown_name }}</option>
+                                    @empty
+                                        <option value="" disabled selected>No Data Found</option>
+                                    @endforelse
+                                </select>
+                                <label>Salary Type</label>
                             </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-success" style="margin-left: 84%; margin-right: -3;"><i class="fa fa-spinner fa-pulse fa-1x fa-fw"></i> Generate Payroll</button>
                         </div>
                     </div>
                 </form>
@@ -79,18 +91,22 @@
                             <th>Full Name</th>
                             <th>Position</th>
                             <th>Salary Type</th>
-                            <th>B. Salary</th>
+                            <th>Gross Salary</th>
+                            <th>Net Salary</th>
+                            <th>Month</th>
                             <th>Action</th>
                         </tr>
                     </thead>
                     <tbody id="employee_table">
-                        @forelse ($salary as $key => $salary)
+                        @forelse ($salaries as $key => $salary)
                             <tr>
                                 <td>{{ ++$key }}</td>
                                 <td>{{ $salary->fullname }}</td>
                                 <td>{{ $salary->position }}</td>
                                 <td>{{ $salary->salary_type }}</td>
-                                <td>{{ number_format($salary->salary, 2) }}</td>
+                                <td>{{ number_format($salary->pay_staff->last()->gross_income ?? 0, 2) }}</td>
+                                <td>{{ number_format($salary->pay_staff->last()->net_income ?? 0, 2)  }}</td>
+                                <td>{{ $salary->pay_staff->last()->pay_month ?? null }}, {{ $salary->pay_staff->last()->pay_year ?? null }}</td>
                                 <td>
                                     <div class="btn-group">
                                         <a href="{{ route('view_paid_salaries', ['id' => $salary->salary_id]) }}" class="btn btn-info btn-sm view" title="View Details"><i class="fas fa-eye"></i></a>
@@ -109,6 +125,7 @@
             </div>
         </div>
     </div>
+
     @include('modals.medium-modal')
 
     @push('scripts')

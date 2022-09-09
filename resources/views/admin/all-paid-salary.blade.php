@@ -32,8 +32,9 @@
                             <th>Salary Type</th>
                             <th>B. Salary</th>
                             <th>Allowances</th>
+                            <th>Gross Sal.</th>
                             <th>Deductions</th>
-                            <th>Net Salary</th>
+                            <th>Net Sal.</th>
                             <th>Month</th>
                             <th>Action</th>
                         </tr>
@@ -42,20 +43,25 @@
                         @forelse ($payments as $key => $payment)
                             <tr>
                                 @php
-                                    $amount_incomes = (empty($payment->amount_incomes)) ? 0 : array_sum($payment->amount_incomes);
-                                    $amount_deductions = (empty($payment->amount_deductions)) ? 0 : array_sum($payment->amount_deductions);
+                                    $pay_dep = App\Models\PayrollDependecy::where('id', $payment->depend_id)->first();
+                                    $pay_loan = App\Models\LoanPayment::where('loan_pay_id', $payment->loan_pay_id)->first();
+
+                                    $amount_incomes = floatval(array_sum($pay_dep->amount_incomes ?? [0]));
+                                    $amount_deductions = floatval(array_sum($pay_dep->amount_deductions ?? [0])) + floatval($pay_dep->tax) + floatval($pay_dep->employee_ssf) + floatval($pay_loan->amount_paid ?? null);
+
                                 @endphp
                                 <td>{{ ++$key }}</td>
-                                <td>{{ $staff_name->position }}</td>
-                                <td>{{ $staff_name->salary_type }}</td>
-                                <td>{{ number_format($staff_name->salary, 2) }}</td>
+                                <td>{{ $payment->positon }}</td>
+                                <td>{{ $payment->salary_type }}</td>
+                                <td>{{ number_format($payment->basic, 2) }}</td>
                                 <td>{{ number_format($amount_incomes, 2) }}</td>
+                                <td>{{ number_format($payment->gross_income, 2) }}</td>
                                 <td>{{ number_format($amount_deductions, 2) }}</td>
-                                <td>{{ number_format(($staff_name->salary + $amount_incomes) - $amount_deductions, 2) }}</td>
-                                <td>Month</td>
+                                <td>{{ number_format($payment->net_income, 2) }}</td>
+                                <td>{{ $payment->pay_month }}, {{ $payment->pay_year }}</td>
                                 <td>
                                     <div class="btn-group">
-                                          <button class="btn btn-info btn-sm view" value="{{ $payment->id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="View Details"><i class="fas fa-eye"></i></button>
+                                          <button class="btn btn-info btn-sm view" value="{{ $payment->pay_id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="View Details"><i class="fas fa-eye"></i></button>
                                           {{-- <button class="btn btn-success btn-sm edit" value="{{ $payment->id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="Edit Details"><i class="fas fa-edit"></i></button>
                                           <button class="btn btn-danger btn-sm delete" value="{{ $payment->id }}" data-bs-toggle="modal" data-bs-target="#comfirm-delete" role="button"><i class="fas fa-trash"></i></button> --}}
                                     </div>

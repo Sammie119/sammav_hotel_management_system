@@ -9,6 +9,7 @@ use App\Models\Dropdown;
 use App\Models\LoanPayment;
 use Illuminate\Http\Request;
 use App\Models\PayrollDependecy;
+use App\Models\Staff;
 
 class PayrollController extends Controller
 {
@@ -54,7 +55,7 @@ class PayrollController extends Controller
     public function index()
     {
         $salary = VWStaff::orderByDesc('staff_id')->get();
-        return view('admin.payroll-payment', ['salary' => $salary]);
+        return view('admin.payroll-payment', ['salaries' => $salary]);
     }
 
     /**
@@ -122,6 +123,9 @@ class PayrollController extends Controller
         $pay->deductions = $request->deductions;
         $pay->amount_deductions = (!empty($request->amount_deductions)) ? $this->percentageToAmount($request->amount_deductions, $request->rate_deductions, $request->basic_salary) : null;
         $pay->rate_deductions = (!empty($request->rate_deductions)) ? $this->toAmount($request->rate_deductions) : null;
+        $pay->tax = getTax($request->basic_salary, $request->staff_id);
+        $pay->employer_ssf = $request->employer_ssf;
+        $pay->employee_ssf = $request->employee_ssf;
 
         if($request->has('id')){
             $pay->updated_by = Auth()->user()->user_id;
@@ -134,18 +138,62 @@ class PayrollController extends Controller
             $pay->updated_by = Auth()->user()->user_id;
             $pay->save();
 
+            $pay->update(array(
+                'tax' => getTax($request->basic_salary, $request->staff_id), 
+            ));
+
             return redirect('payroll')->with('success', 'Payroll Created Successfully!!');
         }
     }
 
     public function viewSalariesPaid($id)
     {
-        $payment = PayrollDependecy::where('staff_id', $id)->orderByDesc('id')->get();
+        $payment = Payroll::where('staff_id', $id)->orderByDesc('pay_id')->get();
         $staff_name = VWStaff::where('staff_id', $id)->first();
         return view('admin.all-paid-salary', ['payments' => $payment, 'staff_name' => $staff_name]);
     }
 
-    
+    public function generatePayroll(Request $request)
+    {
+        $staffs = VWStaff::where('salary_type', $request->salary_type)->get();
+        
+        foreach ($staffs as $key => $staff) {
+            // dd($staff->staff_id);
+            $pay_dep = PayrollDependecy::where('staff_id', $staff->staff_id)->orderByDesc('id')->first();
+
+            $pay_loan = LoanPayment::where('staff_id', $staff->staff_id)->orderByDesc('loan_pay_id')->first();
+            if(isset($pay_loan->status) && $pay_loan->status === 2){
+                $pay_loan->loan_pay_id = 0;
+            }
+            // dd($request->all(), $pay_dep, $pay_loan, $staff->salary);
+
+            $incomes = floatval(array_sum($pay_dep->amount_incomes ?? [0]));
+            $deductions = floatval(array_sum($pay_dep->amount_deductions ?? [0])) + floatval($pay_dep->tax) + floatval($pay_dep->employee_ssf) + floatval($pay_loan->amount_paid ?? null);
+
+            $gross_income = $staff->salary + $incomes;
+            $net_income = $gross_income - $deductions;
+
+            $payroll = new Payroll;
+            $payroll->staff_id = $staff->staff_id;
+            $payroll->depend_id = $pay_dep->id;
+            $payroll->loan_pay_id = $pay_loan->loan_pay_id ?? null;
+            $payroll->description = $request->description;
+            $payroll->positon = $staff->position;
+            $payroll->basic = $staff->salary;
+            $payroll->gross_income = $gross_income;
+            $payroll->net_income = $net_income;
+            $payroll->pay_month = $request->salary_month;
+            $payroll->pay_year = $request->salary_year;
+            $payroll->salary_type = $request->salary_type;
+            $payroll->created_by = Auth()->user()->user_id;
+            $payroll->updated_by = Auth()->user()->user_id;
+
+            $payroll->save();
+        }
+
+        return redirect('payroll')->with('success', 'Payroll Generated Successfully!!');
+        
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -157,6 +205,6 @@ class PayrollController extends Controller
         $room = Payroll::find($room_id);
         $room->delete();
 
-        return redirect('rooms')->with('success', 'Room Deleted Successfully!!');
+        return back()->with('success', 'Payroll Deleted Successfully!!');
     }
 }

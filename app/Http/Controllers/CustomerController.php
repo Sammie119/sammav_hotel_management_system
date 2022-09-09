@@ -35,12 +35,12 @@ class CustomerController extends Controller
         if($request->has('id')){
             $customer->update();
 
-            return redirect('customers')->with('success', 'Customer Updated Successfully!!');
+            return redirect('customers')->with('success', 'Guest Updated Successfully!!');
         }
         else {
             $customer->save();
 
-            return redirect('customers')->with('success', 'Customer Created Successfully!!');
+            return redirect('customers')->with('success', 'Guest Created Successfully!!');
         }
     }
 
@@ -49,6 +49,6 @@ class CustomerController extends Controller
         $customer = Customer::find($id);
         $customer->delete();
 
-        return redirect('customers')->with('success', 'Customer Deleted Successfully!!');
+        return redirect('customers')->with('success', 'Guest Deleted Successfully!!');
     }
 }

@@ -1,0 +1,84 @@
+<h4>Salary details for {{ $pay->pay_month }}, {{ $pay->pay_year }}</h4>
+<hr>
+<table class="table">
+    <tbody>
+      <tr>
+        <th scope="row">Staff Name</th>
+        <td>{{ $staff->fullname }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row">Annual Salary</th>
+        <td>{{ number_format($pay->basic * 12, 2) }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row">Basic Salary</th>
+        <td>{{ number_format($pay->basic, 2) }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row" colspan="3">Allowances</th>
+      </tr>
+      @php
+         $allowances = \App\Models\PayrollDependecy::where('id', $pay->depend_id)->first();
+      @endphp
+      @forelse ($allowances->incomes as $i => $incomes)
+        <tr>
+            <th scope="row" style="padding-left: 50px;">{{ $incomes }}</th>
+            <td>{{ number_format($allowances->amount_incomes[$i], 2) }}</td>
+            <td></td>
+        </tr>
+      @empty
+        <tr>
+            <th scope="row" colspan="3"></th>
+        </tr>
+      @endforelse
+      
+      <tr>
+        <th scope="row">Total Earning</th>
+        <td></td>
+        <td>{{ number_format($pay->gross_income, 2) }}</td>
+      </tr>
+      <tr>
+        <th scope="row" colspan="3">Deductions</th>
+      </tr>
+      <tr>
+        <th scope="row" style="padding-left: 50px;">Income Tax</th>
+        <td>{{ number_format($allowances->tax, 2) }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row" style="padding-left: 50px;">SSF Employer</th>
+        <td>{{ number_format($allowances->employer_ssf, 2) }}</td>
+        <td></td>
+      </tr>
+      <tr>
+        <th scope="row" style="padding-left: 50px;">SSF Employee</th>
+        <td>{{ number_format($allowances->employee_ssf, 2) }}</td>
+        <td></td>
+      </tr>
+      @forelse ($allowances->deductions as $i => $deductions)
+        <tr>
+            <th scope="row" style="padding-left: 50px;">{{ $deductions }}</th>
+            <td>{{ number_format($allowances->amount_deductions[$i], 2) }}</td>
+            <td></td>
+        </tr>
+      @empty
+        <tr>
+            <th scope="row" colspan="3">No Deduction</th>
+        </tr>
+      @endforelse
+      <tr>
+        <th scope="row" style="width: 40%">Total Deductions</th>
+        <td></td>
+        <td>({{ number_format((array_sum($allowances->amount_deductions ?? [0]) + $allowances->tax + $allowances->employee_ssf), 2) }})</td>
+      </tr>
+      <tr>
+        <th scope="row">Net Income</th>
+        <td></td>
+        <td>{{ number_format($pay->net_income, 2) }}</td>
+      </tr>
+      
+    </tbody>
+  </table>

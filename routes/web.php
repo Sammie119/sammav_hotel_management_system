@@ -11,7 +11,9 @@ use App\Http\Controllers\PayrollController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\RoomTypeController;
 use App\Http\Controllers\ServicePriceController;
+use App\Http\Controllers\SMSController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\SystemSetupController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +32,7 @@ use App\Http\Controllers\StaffController;
 
 Route::controller(AuthController::class)->group(function () {
     Route::get('/', 'index');
-    Route::post('login', 'postLogin');
+    Route::post('login', 'postLogin')->middleware('birth_sms');
     Route::get('logout', 'logout');
 });
 
@@ -92,13 +94,30 @@ Route::middleware(['adminCheck'])->group(function () {
         Route::get('payroll', 'index')->name('payroll');
         Route::post('store_payroll', 'store');
         Route::get('view_paid_salaries/{id}', 'viewSalariesPaid')->name('view_paid_salaries');
-        Route::get('delete_all_paymemt/{id}', 'destroy');    
+        Route::get('delete_all_paymemt/{id}', 'destroy');
+        Route::post('generate_payroll', 'generatePayroll');    
     });
 
     Route::controller(LoanController::class)->group(function () {
         Route::get('loans', 'index')->name('loans');
         Route::post('store_loan', 'store');
         Route::get('delete_loan/{id}', 'destroy');    
+    });
+
+    Route::controller(SMSController::class)->group(function () {
+        Route::get('sms', 'index')->name('sms');
+        Route::post('store_sms', 'store');
+        Route::get('send_sms', 'sendSMS');
+        Route::get('check_sms_balance', 'checkSMSBalance');
+        Route::get('delete_sms/{id}', 'destroy');    
+    });
+
+    Route::controller(SystemSetupController::class)->group(function () {
+        Route::get('setup', 'index')->name('setup');
+        Route::post('store_setup', 'store');
+        Route::get('tax', 'indexTax')->name('tax');
+        Route::post('store_tax', 'storeTax');
+        Route::get('delete_tax/{id}', 'destroy');    
     });
 
 });
@@ -126,6 +145,8 @@ Route::controller(FormRequestController::class)->group(function () {
 
 Route::controller(GetAjaxRequestController::class)->group(function () {
     Route::get('get-room', 'getRoomFromRoomType');
-    Route::get('get-staff-info', 'getStaffInfo');  
+    Route::get('get-staff-info', 'getStaffInfo'); 
+    Route::get('get-sms-recipient', 'getSMSRecipient'); 
+
 });
 

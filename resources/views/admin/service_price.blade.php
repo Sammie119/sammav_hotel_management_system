@@ -16,7 +16,7 @@
             <div class="card-header">
                 <i class="fas fa-table me-1"></i>
                 Price List
-                {{-- <button class="btn btn-sm sammav-btn float-end create" value="new_customer" data-bs-target="#getModal" data-bs-toggle="modal" title="New Dropdown">Add Customer</button> --}}
+                {{-- <button class="btn btn-sm sammav-btn float-end create" value="new_customer" data-bs-target="#getModal" data-bs-toggle="modal" title="New Dropdown">Add Guest</button> --}}
                 <form class="d-flex float-end input-group-sm" role="search">
                     <input class="form-control me-2" type="search" id="search" placeholder="Search" aria-label="Search" >
                     <button class="btn btn-sm me-2"><i class="fas fa-search"></i></button>

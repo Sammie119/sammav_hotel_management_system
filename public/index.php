@@ -33,6 +33,9 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 
 require __DIR__.'/../vendor/autoload.php';
 
+// require the AutoLoader.php file in the SDK
+require __DIR__.'/../app/Http/SMSNotify/lib/Zenoph/Notify/AutoLoader.php';
+
 /*
 |--------------------------------------------------------------------------
 | Run The Application

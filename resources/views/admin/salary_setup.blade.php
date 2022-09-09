@@ -49,7 +49,7 @@
                                 <td>
                                     <div class="btn-group">
                                         <button class="btn btn-success btn-sm edit" value="{{ $salary->salary_id }}" data-bs-target="#getModal" data-bs-toggle="modal" title="Edit Details"><i class="fas fa-edit"></i></button>
-                                        <button class="btn btn-info btn-sm payment" value="{{ $salary->salary_id }}" data-bs-toggle="modal" data-bs-target="#getlargeModal" title="Payroll"><i class="fas fa-eye"></i></button>
+                                        {{-- <button class="btn btn-info btn-sm payment" value="{{ $salary->salary_id }}" data-bs-toggle="modal" data-bs-target="#getlargeModal" title="Payroll"><i class="fas fa-eye"></i></button> --}}
                                     </div>
                                 </td>
                             </tr> 
@@ -65,7 +65,7 @@
         </div>
     </div>
     @include('modals.medium-modal')
-    @include('modals.large-modal')
+    {{-- @include('modals.large-modal') --}}
 
     @push('scripts')
         <script>
@@ -108,16 +108,16 @@
                     })
                 });
 
-                $(document).on('click', '.payment', function(){
-                    $('.modal-title').text('Payroll/Payment');
+                // $(document).on('click', '.payment', function(){
+                //     $('.modal-title').text('Payroll/Payment');
 
-                    var editModal=$(this).val();
-                    $.get('edit-modal/'+editModal, function(result) {
+                //     var editModal=$(this).val();
+                //     $.get('edit-modal/'+editModal, function(result) {
                         
-                        $(".modal-body").html(result);
+                //         $(".modal-body").html(result);
                         
-                    })
-                });
+                //     })
+                // });
 
             };
             

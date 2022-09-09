@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
+use App\Models\Loan;
 use App\Models\Room;
 use App\Models\User;
-use App\Models\Dropdown;
-use App\Models\GallaryImages;
-use App\Models\Loan;
-use App\Models\PayrollDependecy;
-use App\Models\RoomType;
-use App\Models\ServicePrice;
 use App\Models\Staff;
 use App\Models\VWStaff;
+use App\Models\Customer;
+use App\Models\Dropdown;
+use App\Models\RoomType;
+use App\Models\ServicePrice;
 use Illuminate\Http\Request;
+use App\Models\GallaryImages;
+use App\Models\PayrollDependecy;
+use App\Http\Controllers\SMSController;
+use App\Models\Payroll;
+use App\Models\SMSSent;
+use App\Models\TaxSSNIT;
 
 class FormRequestController extends Controller
 {
@@ -50,6 +54,20 @@ class FormRequestController extends Controller
 
             case 'new_loan':
                 return view('forms.input-forms.loan_form');
+                break;
+
+            case 'new_sms':
+                return view('forms.input-forms.sms_form');
+                break;
+
+            case 'sms_balance':
+                $bl = SMSController::checkSMSBalance();
+                return view('forms.view-forms.sms_balance_view', ['sms_bl' => $bl]);
+                break;
+
+            case 'new_tax':
+                $tax = TaxSSNIT::orderByDesc('id')->first();
+                return view('forms.input-forms.tax_form', ['tax' => $tax]);
                 break;
 
             default:
@@ -120,19 +138,16 @@ class FormRequestController extends Controller
                 ]);
                 break;
 
-            // Use when the need be
-            case 'edit_all_payment':
-                $staff = VWStaff::where('salary_id', $id)->first();
-                return '<h1>Edit All</h1>';
-                // return view('forms.input-forms.salary_payment_form', ['staff' => $staff]);
-                break;
-            // Use when the need be
-
             case 'edit_loan':
                 $loan = Loan::find($id);
                 $staff = VWStaff::where('staff_id', $loan->staff_id)->first();
                 return view('forms.input-forms.loan_form', ['loan' => $loan, 'staff' => $staff]);
                 break;
+
+            case 'edit_sms':
+                    $msg = SMSSent::find($id);
+                    return view('forms.input-forms.sms_form', ['message' => $msg]);
+                    break;
         
             default:
                 return "No Form Selected";
@@ -155,15 +170,20 @@ class FormRequestController extends Controller
                 break;
 
             case 'view_all_payment':
-                $staff = VWStaff::where('staff_id', $id)->first();
-                return '<h1>View All</h1>';
-                // return view('forms.view-forms.staff_view', ['staff' => $staff]);
+                $pay = Payroll::find($id);
+                $staff = VWStaff::where('staff_id', $pay->staff_id)->first();
+                return view('forms.view-forms.all_payment_view', ['pay' => $pay,'staff' => $staff]);
                 break;
 
             case 'view_loan':
                 $loan = Loan::find($id);
                 $staff = VWStaff::where('staff_id', $loan->staff_id)->first();
                 return view('forms.view-forms.loan_view', ['loan' => $loan, 'staff' => $staff]);
+                break;
+
+            case 'view_sms':
+                $msg = SMSSent::find($id);
+                return view('forms.view-forms.sms_view', ['message' => $msg]);
                 break;
             
             default:
@@ -211,6 +231,22 @@ class FormRequestController extends Controller
 
             case 'delete_loan':
                 return view('forms.delete-forms.delete-loan', ['id' => $id]);
+                break;
+
+            case 'sms_report':
+                $msg = SMSSent::find($id);
+                // $message = 'Hello {$name}! Sammie says he Love You so much. Take of yourself for him. More Love.';
+
+                // $data = [
+                //     ['name'=>'Sammie', 'phone'=>'0248376160'],
+                //     ['name'=>'Mrs. Sarpong-Duah', 'phone'=>'0556226864']
+                // ];
+                
+                return view('forms.delete-forms.sms-report', ['message' => $msg->message, 'data' => $msg->phone_numbers]);
+                break;
+
+            case 'delete_tax':
+                return view('forms.delete-forms.delete-tax', ['id' => $id]);
                 break;
         
             default:

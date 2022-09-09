@@ -14,7 +14,7 @@
             @empty
                 <option value="" disabled selected>No Data Found</option>
             @endforelse
-          </datalist>
+        </datalist>
     </div>
 
     <div class="row mb-3">
