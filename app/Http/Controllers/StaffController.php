@@ -95,6 +95,10 @@ class StaffController extends Controller
         $salary->department_id = $request->department_id;
         $salary->position_id = $request->position_id;
         $salary->salary = $request->salary;
+        $salary->ssnit_number = $request->ssnit_number;
+        $salary->banker = $request->banker;
+        $salary->bank_branch = $request->bank_branch;
+        $salary->bank_account = $request->bank_account;
         $salary->updated_by = Auth()->user()->user_id;
 
         $salary->update();

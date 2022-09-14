@@ -20,6 +20,10 @@ return new class extends Migration
             $table->unsignedTinyInteger('department_id');
             $table->unsignedTinyInteger('position_id');
             $table->decimal('salary', 10, 2);
+            $table->string('banker', 100)->nullable();
+            $table->string('bank_account', 25)->nullable();
+            $table->string('bank_branch')->nullable();
+            $table->string('ssnit_number', 100)->nullable();
             $table->unsignedBigInteger('created_by');
             $table->unsignedBigInteger('updated_by');
             $table->timestamps();

@@ -33,7 +33,7 @@ use App\Http\Controllers\SystemSetupController;
 Route::controller(AuthController::class)->group(function () {
     Route::get('/', 'index');
     Route::post('login', 'postLogin')->middleware('birth_sms');
-    Route::get('logout', 'logout');
+    Route::get('logout', 'logout')->name('logout');
 });
 
 Route::middleware(['adminCheck'])->group(function () {
@@ -95,7 +95,8 @@ Route::middleware(['adminCheck'])->group(function () {
         Route::post('store_payroll', 'store');
         Route::get('view_paid_salaries/{id}', 'viewSalariesPaid')->name('view_paid_salaries');
         Route::get('delete_all_paymemt/{id}', 'destroy');
-        Route::post('generate_payroll', 'generatePayroll');    
+        Route::post('generate_payroll', 'generatePayroll'); 
+        Route::get('get_payslip/{pay_id}', 'getPaySlip');    
     });
 
     Route::controller(LoanController::class)->group(function () {

@@ -77,7 +77,9 @@ class PayrollController extends Controller
         else {
             $pay = new PayrollDependecy;
         }
-        if($request->has('loan_id')){
+
+        // dd($request->all());
+        if($request->has('loan_id') && $request->has('amount_loan')){
             // dd($request->all());
             foreach ($request->loan_id as $i => $loan_id) {
 
@@ -193,6 +195,13 @@ class PayrollController extends Controller
 
         return redirect('payroll')->with('success', 'Payroll Generated Successfully!!');
         
+    }
+
+    public function getPaySlip($pay_id)
+    {
+        $pay = Payroll::find($pay_id);
+        $staff = VWStaff::where('staff_id', $pay->staff_id)->first();
+        return view('admin.payslip_print', ['pay' => $pay, 'staff' => $staff]);
     }
     /**
      * Remove the specified resource from storage.

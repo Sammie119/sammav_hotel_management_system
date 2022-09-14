@@ -55,6 +55,34 @@
             </div>
         </div>
     </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="form-floating mb-3 mb-md-0">
+                <input class="form-control" value="{{ $staff->ssnit_number }}" type="text" name="ssnit_number" placeholder=" " />
+                <label>SSNIT Number</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                <input class="form-control" value="{{ $staff->banker }}" type="text" name="banker" placeholder=" " />
+                <label>Bank Name</label>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="form-floating mb-3 mb-md-0">
+                <input class="form-control" value="{{ $staff->bank_branch }}" type="text" name="bank_branch" placeholder=" " />
+                <label>Bank Branch</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating mb-3">
+                <input class="form-control" value="{{ $staff->bank_account }}" type="number" name="bank_account" placeholder=" " />
+                <label>Bank Account Number</label>
+            </div>
+        </div>
+    </div>
 
     <hr width="104%" style="margin-left: -15px; background: #bbb">
 
