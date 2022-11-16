@@ -1,6 +1,6 @@
 <div class="container-fluid px-4">
     <div class="d-flex align-items-center justify-content-between small">
-        <div class="text-muted">Sammav IT Consult Copyright &copy; {{ date('Y') }}</div>
+        <div class="text-muted">Sammav IT Services Copyright &copy; {{ date('Y') }}</div>
         <div>
             <a href="https://wa.link/dqlq0r">WhatsApp</a>
             &middot;

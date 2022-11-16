@@ -79,6 +79,6 @@
     </div>
     <div class="sb-sidenav-footer" style="background: radial-gradient(#653d84, #332042)">
         <div class="small">Create & Designed By:</div>
-        Sammav IT Consult
+        Sammav IT Services
     </div>
 </nav>

@@ -44,20 +44,39 @@ class AuthController extends Controller
         ]);
 
         if($request->has('id')) {
-            User::updateOrCreate(
-                [
-                    'username' => $request['username']
-                ],
-                [
-                'name' => $request['name'],
-                'username' => $request['username'],
-                'role' => $request['role'],
-                'p_contact' => $request['p_contact'],
-                'o_contact' => $request['o_contact'],
-                'department' => $request['department'],
-                'position' => $request['position'],
-                ]
-            );
+            if(isset($request->password)){
+                User::updateOrCreate(
+                    [
+                        'username' => $request['username']
+                    ],
+                    [
+                    'name' => $request['name'],
+                    'username' => $request['username'],
+                    'role' => $request['role'],
+                    'p_contact' => $request['p_contact'],
+                    'o_contact' => $request['o_contact'],
+                    'department' => $request['department'],
+                    'position' => $request['position'],
+                    'password' => Hash::make($request['password'])
+                    ]
+                );
+            } else {
+                User::updateOrCreate(
+                    [
+                        'username' => $request['username']
+                    ],
+                    [
+                    'name' => $request['name'],
+                    'username' => $request['username'],
+                    'role' => $request['role'],
+                    'p_contact' => $request['p_contact'],
+                    'o_contact' => $request['o_contact'],
+                    'department' => $request['department'],
+                    'position' => $request['position'],
+                    ]
+                );
+            }
+            
 
             return back()->with('success', 'User Updated Successfully!!');
         }
@@ -111,7 +130,7 @@ class AuthController extends Controller
 
     public function usersList()
     {
-        $users = User::where('role', '!=', '3')->get();
+        $users = User::where('role', '!=', '2')->get();
         return view('admin.users', ['users' => $users]);
     }
 
